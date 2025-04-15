@@ -9,9 +9,9 @@ export const blogsRepository = {
   findById(id: string): BlogViewModel | null {
     return db.blogs.find((blog) => blog.id === id) || null
   },
-  create(blogInput: BlogInputModel) {
+  create(blogInputModel: BlogInputModel) {
     const newBlog: BlogViewModel = {
-      ...blogInput,
+      ...blogInputModel,
       id: crypto.randomUUID(),
     }
 
@@ -26,6 +26,21 @@ export const blogsRepository = {
     }
 
     db.blogs.splice(index, 1)
+    return
+  },
+  update(id: string, dto: BlogInputModel) {
+    const blog = db.blogs.find((b) => b.id === id)
+
+    if (!blog) {
+      throw new Error('Blog not exist')
+    }
+
+    const updatedBlog = {
+      ...dto,
+    }
+
+    Object.assign(blog, updatedBlog)
+
     return
   },
 }

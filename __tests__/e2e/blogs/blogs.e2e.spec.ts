@@ -36,7 +36,7 @@ describe('Blogs API', () => {
   it('return blog by ID', async () => {
     const createdBlog = await createBlog(app)
 
-    const foundBlog = await getBlogById(app, createdBlog.id)
+    await getBlogById(app, createdBlog.id)
   })
 
   it('delete blog and check after "NOT FOUND"', async () => {
@@ -49,5 +49,26 @@ describe('Blogs API', () => {
     await request(app)
       .get(`/blogs/${createdBlog.id}`)
       .expect(HttpStatus.NotFound)
+  })
+
+  it('update blog', async () => {
+    const createdBlog = await createBlog(app)
+
+    const updatedBlogModel = {
+      name: 'Updated Blog',
+      description: 'Updated Description',
+      websiteUrl: 'https://updated.com',
+    }
+
+    await request(app)
+      .put(`/blogs/${createdBlog.id}`)
+      .send(updatedBlogModel)
+      .expect(HttpStatus.NoContent)
+
+    const updatedBlog = await getBlogById(app, createdBlog.id)
+    expect(updatedBlog).toEqual({
+      ...updatedBlogModel,
+      id: createdBlog.id,
+    })
   })
 })

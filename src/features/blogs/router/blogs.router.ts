@@ -38,10 +38,24 @@ blogsRouter.delete('/:id', (req: Request, res: Response) => {
   const blog = blogsRepository.findById(id)
 
   if (!blog) {
-    res.status(HttpStatus.NotFound)
+    res.sendStatus(HttpStatus.NotFound)
     return
   }
 
   blogsRepository.delete(id)
+  res.sendStatus(HttpStatus.NoContent)
+})
+
+blogsRouter.put('/:id', (req: Request, res: Response) => {
+  const id = req.params.id
+
+  const blog = blogsRepository.findById(id)
+
+  if (!blog) {
+    res.sendStatus(HttpStatus.NotFound)
+    return
+  }
+
+  blogsRepository.update(id, req.body)
   res.sendStatus(HttpStatus.NoContent)
 })
