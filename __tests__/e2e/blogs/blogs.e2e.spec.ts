@@ -5,6 +5,7 @@ import { clearDb } from '../utils/clear-db'
 import { HttpStatus } from '../../../src/core/types/http-statuses'
 import { createBlog } from './utils/createBlog'
 import { getBlogById } from './utils/getBlogById'
+import { generateAdminBasicCredentials } from '../utils/generate-admin-basic-cred'
 
 describe('Blogs API', () => {
   const app = express()
@@ -44,6 +45,7 @@ describe('Blogs API', () => {
 
     await request(app)
       .delete(`/blogs/${createdBlog.id}`)
+      .set('Authorization', generateAdminBasicCredentials())
       .expect(HttpStatus.NoContent)
 
     await request(app)
@@ -62,6 +64,7 @@ describe('Blogs API', () => {
 
     await request(app)
       .put(`/blogs/${createdBlog.id}`)
+      .set('Authorization', generateAdminBasicCredentials())
       .send(updatedBlogModel)
       .expect(HttpStatus.NoContent)
 

@@ -5,6 +5,7 @@ import {
   BlogInputModel,
   BlogViewModel,
 } from '../../../../src/features/blogs/types/blogs.types'
+import { generateAdminBasicCredentials } from '../../utils/generate-admin-basic-cred'
 
 export async function createBlog(
   app: Express,
@@ -18,6 +19,7 @@ export async function createBlog(
 
   const createdBlog = await request(app)
     .post('/blogs')
+    .set('Authorization', generateAdminBasicCredentials())
     .send(testBlog)
     .expect(HttpStatus.Created)
   return createdBlog.body
