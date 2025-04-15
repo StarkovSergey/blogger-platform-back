@@ -12,6 +12,17 @@ blogsRouter.get('', (req, res) => {
   res.status(200).send(blogs)
 })
 
+blogsRouter.get('/:id', (req: Request, res: Response) => {
+  const blog = blogsRepository.findById(req.params.id)
+
+  if (!blog) {
+    res.sendStatus(HttpStatus.NotFound)
+    return
+  }
+
+  res.send(blog)
+})
+
 blogsRouter.post(
   '',
   blogInputValidations,
@@ -21,3 +32,16 @@ blogsRouter.post(
     res.status(HttpStatus.Created).send(newBlog)
   },
 )
+
+blogsRouter.delete('/:id', (req: Request, res: Response) => {
+  const id = req.params.id
+  const blog = blogsRepository.findById(id)
+
+  if (!blog) {
+    res.status(HttpStatus.NotFound)
+    return
+  }
+
+  blogsRepository.delete(id)
+  res.sendStatus(HttpStatus.NoContent)
+})
