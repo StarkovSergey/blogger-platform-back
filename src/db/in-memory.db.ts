@@ -1,7 +1,9 @@
 import { BlogViewModel } from '../features/blogs/types/blogs.types'
+import { PostViewModel } from '../features/posts/types/posts.types'
 
 export const db: {
   blogs: BlogViewModel[]
+  posts: PostViewModel[]
 } = {
   blogs: [
     {
@@ -24,4 +26,5 @@ export const db: {
       websiteUrl: 'https://expressjs.com',
     },
   ],
+  posts: [],
 }

@@ -27,4 +27,10 @@ blogsRouter.post(
 
 blogsRouter.delete('/:id', authAdminMiddleware, deleteBlogController)
 
-blogsRouter.put('/:id', authAdminMiddleware, updateBlogController)
+blogsRouter.put(
+  '/:id',
+  authAdminMiddleware,
+  blogInputValidations,
+  inputValidationResultMiddleware,
+  updateBlogController,
+)
