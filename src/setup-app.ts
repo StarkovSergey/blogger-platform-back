@@ -3,7 +3,7 @@ import { blogsRouter } from './features/blogs/router/blogs.router'
 import { postsRouter } from './features/posts/router/posts.router'
 import { testingRouter } from './features/testing/routers/testing.router'
 import { Paths } from './core/paths/paths'
-
+import { setupSwagger } from './core/swagger/setup-swagger'
 export const setupApp = (app: Express) => {
   app.use(express.json())
 
@@ -14,5 +14,8 @@ export const setupApp = (app: Express) => {
   app.use(Paths.BLOGS, blogsRouter)
   app.use(Paths.POSTS, postsRouter)
   app.use(Paths.TESTING, testingRouter)
+
+  setupSwagger(app)
+
   return app
 }
