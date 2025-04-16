@@ -32,7 +32,7 @@ export const postsRepository = {
       throw new Error('Post not exist')
     }
 
-    db.blogs.splice(index, 1)
+    db.posts.splice(index, 1)
     return
   },
   update(id: string, dto: PostInputModel) {

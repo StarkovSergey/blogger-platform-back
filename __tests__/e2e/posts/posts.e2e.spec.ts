@@ -27,7 +27,6 @@ describe('Posts API', () => {
       title: 'Test Post',
       shortDescription: 'Test Description',
       content: 'Test Content',
-      blogId: 'test-blog-id',
     }
 
     await createPost(app, post)
@@ -62,7 +61,8 @@ describe('Posts API', () => {
       title: 'Updated Post',
       shortDescription: 'Updated Description',
       content: 'Updated Content',
-      blogId: 'updated-blog-id',
+      blogId: createdPost.blogId,
+      blogName: createdPost.blogName,
     }
 
     await request(app)

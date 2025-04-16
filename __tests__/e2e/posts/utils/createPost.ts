@@ -3,6 +3,7 @@ import { Express } from 'express'
 import { generateAdminBasicCredentials } from '../../utils/generate-admin-basic-cred'
 import { Paths } from '../../../../src/core/paths/paths'
 import { HttpStatus } from '../../../../src/core/types/http-statuses'
+import { createBlog } from '../../blogs/utils/createBlog'
 
 export const createPost = async (
   app: Express,
@@ -10,20 +11,22 @@ export const createPost = async (
     title: string
     shortDescription: string
     content: string
-    blogId: string
+    blogId?: string
   },
 ) => {
+  const blog = await createBlog(app)
+
   const defaultPost = {
-    title: 'Test Post',
-    shortDescription: 'Test Description',
-    content: 'Test Content',
-    blogId: 'test-blog-id',
+    title: postData?.title || 'Test Post',
+    shortDescription: postData?.shortDescription || 'Test Description',
+    content: postData?.content || 'Test Content',
+    blogId: postData?.blogId || blog.id,
   }
 
   const response = await request(app)
     .post(Paths.POSTS)
     .set('Authorization', generateAdminBasicCredentials())
-    .send(postData || defaultPost)
+    .send(defaultPost)
     .expect(HttpStatus.Created)
 
   return response.body
