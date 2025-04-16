@@ -1,4 +1,5 @@
 import { body } from 'express-validator'
+import { blogsRepository } from '../../blogs/repository/blogs.repository'
 
 const titleValidation = body('title')
   .isString()
@@ -27,8 +28,21 @@ const contentValidation = body('content')
   .isLength({ min: 1, max: 1000 })
   .withMessage('Content should be less than 1000 characters')
 
+const blogIdValidation = body('blogId')
+  .isString()
+  .withMessage('Blog ID should be a string')
+  .trim()
+  .notEmpty()
+  .withMessage('Blog ID should not be empty')
+  .custom(async (blogId) => {
+    const blog = await blogsRepository.findById(blogId)
+    return Boolean(blog)
+  })
+  .withMessage('Blog not found')
+
 export const postInputValidations = [
   titleValidation,
   shortDescriptionValidation,
   contentValidation,
+  blogIdValidation,
 ]

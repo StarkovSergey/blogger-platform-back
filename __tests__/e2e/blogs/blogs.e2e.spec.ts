@@ -7,6 +7,7 @@ import { createBlog } from './utils/createBlog'
 import { getBlogById } from './utils/getBlogById'
 import { generateAdminBasicCredentials } from '../utils/generate-admin-basic-cred'
 import { Paths } from '../../../src/core/paths/paths'
+
 describe('Blogs API', () => {
   const app = express()
   setupApp(app)

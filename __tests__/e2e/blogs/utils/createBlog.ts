@@ -3,6 +3,7 @@ import request from 'supertest'
 import { HttpStatus } from '../../../../src/core/types/http-statuses'
 import { BlogViewModel } from '../../../../src/features/blogs/types/blogs.types'
 import { generateAdminBasicCredentials } from '../../utils/generate-admin-basic-cred'
+import { Paths } from '../../../../src/core/paths/paths'
 
 export async function createBlog(
   app: Express,
@@ -15,7 +16,7 @@ export async function createBlog(
   }
 
   const createdBlog = await request(app)
-    .post('/blogs')
+    .post(Paths.BLOGS)
     .set('Authorization', generateAdminBasicCredentials())
     .send(testBlog)
     .expect(HttpStatus.Created)
