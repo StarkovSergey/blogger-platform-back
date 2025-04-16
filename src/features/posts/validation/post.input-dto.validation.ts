@@ -46,3 +46,15 @@ export const postInputValidations = [
   contentValidation,
   blogIdValidation,
 ]
+
+export const blogIdValidation = body('blogId')
+  .isString()
+  .withMessage('Blog ID should be a string')
+  .trim()
+  .notEmpty()
+  .withMessage('Blog ID should not be empty')
+  .custom(async (blogId) => {
+    const blog = await blogsRepository.findById(blogId)
+    return Boolean(blog)
+  })
+  .withMessage('Blog not found')
