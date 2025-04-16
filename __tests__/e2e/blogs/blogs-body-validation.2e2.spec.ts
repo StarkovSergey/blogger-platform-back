@@ -3,8 +3,8 @@ import express from 'express'
 import { setupApp } from '../../../src/setup-app'
 import { clearDb } from '../utils/clear-db'
 import { HttpStatus } from '../../../src/core/types/http-statuses'
-import { createBlog } from './utils/createBlog'
 import { generateAdminBasicCredentials } from '../utils/generate-admin-basic-cred'
+import { Paths } from '../../../src/core/paths/paths'
 
 describe('Blogs API body validation', () => {
   const app = express()
@@ -21,7 +21,7 @@ describe('Blogs API body validation', () => {
     }
 
     const response = await request(app)
-      .post('/blogs')
+      .post(Paths.BLOGS)
       .set('Authorization', generateAdminBasicCredentials())
       .send(blog)
     expect(response.status).toBe(HttpStatus.BadRequest)
@@ -35,7 +35,7 @@ describe('Blogs API body validation', () => {
     }
 
     const response = await request(app)
-      .post('/blogs')
+      .post(Paths.BLOGS)
       .set('Authorization', generateAdminBasicCredentials())
       .send(blog)
     expect(response.status).toBe(HttpStatus.BadRequest)

@@ -6,7 +6,7 @@ import { HttpStatus } from '../../../src/core/types/http-statuses'
 import { createBlog } from './utils/createBlog'
 import { getBlogById } from './utils/getBlogById'
 import { generateAdminBasicCredentials } from '../utils/generate-admin-basic-cred'
-
+import { Paths } from '../../../src/core/paths/paths'
 describe('Blogs API', () => {
   const app = express()
   setupApp(app)
@@ -16,7 +16,7 @@ describe('Blogs API', () => {
   })
 
   it('returns empty array', async () => {
-    const response = await request(app).get('/blogs')
+    const response = await request(app).get(Paths.BLOGS)
     expect(response.status).toBe(HttpStatus.OK)
     expect(response.body).toEqual([])
   })
@@ -30,7 +30,7 @@ describe('Blogs API', () => {
 
     createBlog(app, blog)
 
-    const response = await request(app).get('/blogs')
+    const response = await request(app).get(Paths.BLOGS)
     expect(response.body.length).toBe(1)
   })
 
@@ -44,12 +44,12 @@ describe('Blogs API', () => {
     const createdBlog = await createBlog(app)
 
     await request(app)
-      .delete(`/blogs/${createdBlog.id}`)
+      .delete(`${Paths.BLOGS}/${createdBlog.id}`)
       .set('Authorization', generateAdminBasicCredentials())
       .expect(HttpStatus.NoContent)
 
     await request(app)
-      .get(`/blogs/${createdBlog.id}`)
+      .get(`${Paths.BLOGS}/${createdBlog.id}`)
       .expect(HttpStatus.NotFound)
   })
 
@@ -63,7 +63,7 @@ describe('Blogs API', () => {
     }
 
     await request(app)
-      .put(`/blogs/${createdBlog.id}`)
+      .put(`${Paths.BLOGS}/${createdBlog.id}`)
       .set('Authorization', generateAdminBasicCredentials())
       .send(updatedBlogModel)
       .expect(HttpStatus.NoContent)

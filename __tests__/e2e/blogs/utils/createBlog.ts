@@ -1,10 +1,7 @@
 import { Express } from 'express'
 import request from 'supertest'
 import { HttpStatus } from '../../../../src/core/types/http-statuses'
-import {
-  BlogInputModel,
-  BlogViewModel,
-} from '../../../../src/features/blogs/types/blogs.types'
+import { BlogViewModel } from '../../../../src/features/blogs/types/blogs.types'
 import { generateAdminBasicCredentials } from '../../utils/generate-admin-basic-cred'
 
 export async function createBlog(
